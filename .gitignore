@@ -1,0 +1,13 @@
+*.class
+*.merge-left*
+*.merge-right*
+*.mine
+*.prej
+*.pyc
+*.pyo
+*.working
+.DS_Store
+.settings
+.svn
+_svn
+svn-commit*.tmp
