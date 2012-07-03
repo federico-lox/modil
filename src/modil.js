@@ -16,6 +16,9 @@
 		funcType = Function,
 		strType = 'string';
 
+	/**
+	 * @private
+	 */
 	function process(name){
 		var module = modules[name],
 			dependencies;
@@ -43,6 +46,9 @@
 		return module;
 	}
 
+	/**
+	 * @public
+	 */
 	context.define = function(name, dependencies, definition){
 		if(typeof name != strType)
 			throw "module name missing or not a string";
@@ -62,6 +68,9 @@
 			modules[name] = definition;
 	};
 
+	/**
+	 * @public
+	 */
 	context.require = function(name, callback){
 		var isArray = name instanceof arrType,
 			m = [];
