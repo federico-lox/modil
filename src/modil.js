@@ -4,6 +4,7 @@
  * A no-frills, lightweight and fast AMD implementation for modular Javascript projects.
  * 
  * @author Federico "Lox" Lucignano <https://plus.google.com/117046182016070432246>
+ * @author Jakub Olek <https://plus.google.com/112565259111817320425>
  * @see https://github.com/federico-lox/modil.js
  * @see http://requirejs.org/docs/api.html for example and docs until the official docs for modil ain't ready
  */
@@ -20,6 +21,7 @@
 	 * @private
 	 */
 	function process(name, requestId){
+		console.log(name, requestId);
 		var module = modules[name],
 			//manage the process chain per request call since it's async
 			pid = processing[requestId],
@@ -34,8 +36,10 @@
 			var chain = '',
 				p;
 
-			for(p in pid)
-				chain += p + '->';
+			for(p in pid){
+				if(p != 'length')
+					chain += p + '->';
+			}
 
 			throw "circular dependency: " + chain + name;
 		}
@@ -53,7 +57,7 @@
 			}
 		}
 
-		module = modules[name] = module.def.apply(context, dependencies);
+		modules[name] = module = module.def.apply(context, dependencies);
 		delete definitions[name];
 		delete pid[name];
 		pid.length--;
