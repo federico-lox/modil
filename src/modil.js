@@ -19,37 +19,48 @@
 	/**
 	 * @private
 	 */
-	function process(name){
+	function process(name, requestId){
 		var module = modules[name],
+			//manage the process chain per request call since it's async
+			pid = processing[requestId],
 			dependencies;
 
 		if(module)
 			return module;
 
-		if(processing[name]){
+		if(!pid)
+			pid = {length: 0};
+		else if(pid[name]){
 			var chain = '',
 				p;
 
-			for(p in processing)
+			for(p in pid)
 				chain += p + '->';
 
 			throw "circular dependency: " + chain + name;
 		}
 
-		processing[name] = true;
+		pid[name] = true;
+		pid.length++;
+		processing[requestId] = pid;
 		module = definitions[name];
 
 		if(module.dep instanceof arrType){
 			dependencies = [];
 
 			for(var x = 0, y = module.dep.length; x < y; x++){
-				dependencies[x] = process(module.dep[x]);
+				dependencies[x] = process(module.dep[x], requestId);
 			}
 		}
 
 		module = modules[name] = module.def.apply(context, dependencies);
-		delete processing[name];
 		delete definitions[name];
+		delete pid[name];
+		pid.length--;
+
+		if(!pid.length)
+			delete processing[requestId];
+
 		return module;
 	}
 
@@ -79,19 +90,23 @@
 	 * @public
 	 */
 	context.require = function(name, callback){
-		var isArray = name instanceof arrType,
-			m = [];
+		//make the process asynchronous
+		setTimeout(function(){
+			var isArray = name instanceof arrType,
+				id = Math.random();
+				m = [];
 
-		if(typeof name != strType && !isArray)
-			throw "module name missing or not valid";
+			if(typeof name != strType && !isArray)
+				throw "module name missing or not valid";
 
-		if(isArray){
-			for(var x = 0, y = name.length; x < y; x++)
-				m[x] = process(name[x]);
-		}else
-			m[0] = process(name);
+			if(isArray){
+				for(var x = 0, y = name.length; x < y; x++)
+					m[x] = process(name[x], id);
+			}else
+				m[0] = process(name, id);
 
-		if(callback instanceof funcType)
-			callback.apply(context, m);
+			if(callback instanceof funcType)
+				callback.apply(context, m);
+		}, 0);
 	};
 }(this));
