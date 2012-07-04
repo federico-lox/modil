@@ -26,8 +26,15 @@
 		if(module)
 			return module;
 
-		if(processing[name])
-			throw "circular dependency: " + name;
+		if(processing[name]){
+			var chain = '',
+				p;
+
+			for(p in processing)
+				chain += p + '->';
+
+			throw "circular dependency: " + chain + name;
+		}
 
 		processing[name] = true;
 		module = definitions[name];
