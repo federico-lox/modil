@@ -21,7 +21,6 @@
 	 * @private
 	 */
 	function process(name, requestId){
-		console.log(name, requestId);
 		var module = modules[name],
 			//manage the process chain per request call since it's async
 			pid = processing[requestId],
