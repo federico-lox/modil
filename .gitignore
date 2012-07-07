@@ -1,4 +1,5 @@
 *.class
+*.komodoproject
 *.merge-left*
 *.merge-right*
 *.mine
@@ -12,3 +13,4 @@
 .svn
 _svn
 svn-commit*.tmp
+test.html
