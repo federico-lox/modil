@@ -17,7 +17,9 @@
 		arrType = Array,
 		funcType = Function,
 		strType = 'string',
-		yes = true;
+		yes = true,
+		nil = null,
+		def;
 
 	/**
 	 * @private
@@ -77,7 +79,7 @@
 	/**
 	 * @public
 	 */
-	context.define = function(name, dependencies, definition){
+	context.define = def = function(name, dependencies, definition){
 		if(typeof name !== strType){
 			throw "module name missing or not a string";
 		}
@@ -85,7 +87,7 @@
 		//no dependencies array, it's actually the definition
 		if(!definition && dependencies){
 			definition = dependencies;
-			dependencies = undefined;
+			dependencies = nil;
 		}
 
 		if(!definition){
@@ -103,7 +105,7 @@
 	 * required for UMD checks and to let jQuery register correctly
 	 * @see https://github.com/amdjs/amdjs-api/wiki/jQuery-and-AMD
 	 */
-	context.define.amd = {
+	def.amd = {
 		jQuery: yes
 	};
 
@@ -137,4 +139,7 @@
 			}
 		}, 0);
 	};
+
+	//clear up temporary refs
+	d = nil;
 }(this));
