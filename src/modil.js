@@ -13,9 +13,11 @@
 	var modules = {},
 		definitions = {},
 		processing = {},
+		//help minification
 		arrType = Array,
 		funcType = Function,
-		strType = 'string';
+		strType = 'string',
+		yes = true;
 
 	/**
 	 * @private
@@ -46,7 +48,7 @@
 			throw "circular dependency: " + chain + name;
 		}
 
-		pid[name] = true;
+		pid[name] = yes;
 		pid.length++;
 		processing[requestId] = pid;
 		module = definitions[name];
@@ -98,10 +100,18 @@
 	};
 
 	/**
+	 * required for UMD checks and to let jQuery register correctly
+	 * @see https://github.com/amdjs/amdjs-api/wiki/jQuery-and-AMD
+	 */
+	context.define.amd = {
+		jQuery: yes
+	};
+
+	/**
 	 * @public
 	 */
 	context.require = function(name, callback){
-		//make the process asynchronous
+		//execute asynchronously
 		setTimeout(function(){
 			var isArray = name instanceof arrType,
 				id = Math.random();
