@@ -55,16 +55,19 @@
 		processing[requestId] = pid;
 		module = definitions[name];
 
-		if(module.dep instanceof arrType){
-			dependencies = [];
-			y = module.dep.length;
+		if(module && module.def){
+			if(module.dep instanceof arrType){
+				dependencies = [];
+				y = module.dep.length;
 
-			for(; x < y; x++){
-				dependencies[x] = process(module.dep[x], requestId);
+				for(; x < y; x++){
+					dependencies[x] = process(module.dep[x], requestId);
+				}
 			}
+
+			modules[name] = module = module.def.apply(context, dependencies);
 		}
 
-		modules[name] = module = module.def.apply(context, dependencies);
 		delete definitions[name];
 		delete pid[name];
 		pid.length--;
