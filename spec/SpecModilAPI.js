@@ -13,7 +13,7 @@ describe("API", function(){
 		});
 
 		it("should support AMD", function(){
-			expect(typeof define.amd).toBeDefined();
+			expect(define.amd).toBeDefined();
 		});
 	});
 
