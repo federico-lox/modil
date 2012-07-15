@@ -9,7 +9,7 @@ describe("API", function(){
 		var a = function(){};
 
 		it("should be a function", function(){
-			expect(typeof define).toBe('function');
+			expect(define instanceof Function).toBe(true);
 		});
 
 		it("should support AMD", function(){
