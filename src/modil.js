@@ -46,7 +46,7 @@
 				}
 			}
 
-			throw "circular dependency: " + chain + id;
+			throw 'circular dependency: ' + chain + id;
 		}
 
 		pid[id] = yes;
@@ -65,6 +65,8 @@
 			}
 
 			modules[id] = module = module.def.apply(context, dependencies);
+		}else{
+			throw 'Module ' + id + ' is not defined.';
 		}
 
 		delete definitions[id];
@@ -83,7 +85,7 @@
 	 */
 	context.define = def = function(id, dependencies, definition){
 		if(typeof id !== strType){
-			throw "module id missing or not a string";
+			throw "Module id missing or not a string.";
 		}
 
 		//no dependencies array, it's actually the definition
@@ -93,11 +95,15 @@
 		}
 
 		if(!definition){
-			throw "module " + id + " is missing a definition";
+			throw "Module " + id + " is missing a definition.";
 		}
 
 		if(definition instanceof funcType){
-			definitions[id] = {def: definition, dep: dependencies};
+			if(dependencies === nil || dependencies instanceof arrType){
+				definitions[id] = {def: definition, dep: dependencies};
+			}else{
+				throw 'Invalid dependencies for module ' + id;
+			}
 		}else{
 			modules[id] = definition;
 		}
@@ -116,13 +122,8 @@
 	/**
 	 * @public
 	 */
-	context.require = function(ids, callback){
-		var ret;
-
-		if(!callback && typeof ids === strType){
-			//execute synchronously as per CommonJS spec
-			ret = process(ids, Math.random());
-		}else if(callback instanceof Function && ids instanceof Array){
+	context.require = function(ids, callback, errHandler){
+		if(ids instanceof arrType && callback instanceof funcType){
 			//execute asynchronously
 			setTimeout(function(){
 				var reqId = Math.random();
@@ -131,17 +132,23 @@
 				var x = 0,
 					y = ids.length;
 
-				for(; x < y; x++){
-					m[x] = process(ids[x], reqId);
+				try{
+					for(; x < y; x++){
+						m[x] = process(ids[x], reqId);
+					}
+				}catch(err){
+					if(errHandler instanceof funcType){
+						errHandler.call(context, err);
+					}else{
+						throw err;
+					}
 				}
 
 				callback.apply(context, m);
 			}, 0);
 		}else{
-			throw "Invalid require invokation";
+			throw 'Invalid require call.';
 		}
-
-		return ret;
 	};
 
 	//clear up temporary refs
