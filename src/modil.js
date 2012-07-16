@@ -96,9 +96,7 @@
 
 		if(!definition){
 			throw "Module " + id + " is missing a definition.";
-		}
-
-		if(definition instanceof funcType){
+		}else if(definition instanceof funcType){
 			if(dependencies === nil || dependencies instanceof arrType){
 				definitions[id] = {def: definition, dep: dependencies};
 			}else{
