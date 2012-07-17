@@ -1,14 +1,21 @@
 /**
  * modil.js
  *
- * A no-frills, lightweight and fast AMD implementation for modular Javascript projects.
+ * A no-frills, lightweight and fast AMD implementation
+ * for modular JavaScript projects.
  *
- * @author Federico "Lox" Lucignano <https://plus.google.com/117046182016070432246>
+ * @author Federico "Lox" Lucignano
+ * <https://plus.google.com/117046182016070432246>
+ *
  * @see https://github.com/federico-lox/modil.js
- * @see http://requirejs.org/docs/api.html for example and docs until the official docs for modil ain't ready
+ * @see http://requirejs.org/docs/api.html for example
+ * and docs until the official docs for modil ain't ready
  */
 
-(function(context){
+/*global setTimeout*/
+(function (context) {
+	'use strict';
+
 	var modules = {},
 		definitions = {},
 		processing = {},
@@ -23,25 +30,26 @@
 	/**
 	 * @private
 	 */
-	function process(id, reqId){
+	function process(id, reqId) {
 		var module = modules[id],
-			//manage the process chain per require call since it can be an async call
+			//manage the process chain per require
+			//call since it can be an async call
 			pid = processing[reqId],
 			dependencies,
 			chain = '',
-			x = 0,
+			x,
 			y,
 			p;
 
-		if(module){
+		if (module) {
 			return module;
 		}
 
-		if(!pid){
+		if (!pid) {
 			pid = {length: 0};
-		}else if(pid[id]){
-			for(p in pid){
-				if(p !== 'length'){
+		} else if (pid[id]) {
+			for (p in pid) {
+				if (p !== 'length') {
 					chain += p + '->';
 				}
 			}
@@ -50,30 +58,29 @@
 		}
 
 		pid[id] = yes;
-		pid.length++;
+		pid.length += 1;
 		processing[reqId] = pid;
 		module = definitions[id];
 
-		if(module && module.def){
-			if(module.dep instanceof arrType){
+		if (module && module.def) {
+			if (module.dep instanceof arrType) {
 				dependencies = [];
-				y = module.dep.length;
 
-				for(; x < y; x++){
+				for (x = 0, y = module.dep.length; x < y; x += 1) {
 					dependencies[x] = process(module.dep[x], reqId);
 				}
 			}
 
 			modules[id] = module = module.def.apply(context, dependencies);
-		}else{
+		} else {
 			throw 'Module ' + id + ' is not defined.';
 		}
 
 		delete definitions[id];
 		delete pid[id];
-		pid.length--;
+		pid.length -= 1;
 
-		if(!pid.length){
+		if (!pid.length) {
 			delete processing[reqId];
 		}
 
@@ -83,26 +90,26 @@
 	/**
 	 * @public
 	 */
-	context.define = def = function(id, dependencies, definition){
-		if(typeof id !== strType){
+	context.define = def = function (id, dependencies, definition) {
+		if (typeof id !== strType) {
 			throw "Module id missing or not a string.";
 		}
 
 		//no dependencies array, it's actually the definition
-		if(!definition && dependencies){
+		if (!definition && dependencies) {
 			definition = dependencies;
 			dependencies = nil;
 		}
 
-		if(!definition){
+		if (!definition) {
 			throw "Module " + id + " is missing a definition.";
-		}else if(definition instanceof funcType){
-			if(dependencies === nil || dependencies instanceof arrType){
+		} else if (definition instanceof funcType) {
+			if (dependencies === nil || dependencies instanceof arrType) {
 				definitions[id] = {def: definition, dep: dependencies};
-			}else{
+			} else {
 				throw 'Invalid dependencies for module ' + id;
 			}
-		}else{
+		} else {
 			modules[id] = definition;
 		}
 	};
@@ -120,31 +127,30 @@
 	/**
 	 * @public
 	 */
-	context.require = function(ids, callback, errHandler){
-		if(ids instanceof arrType && callback instanceof funcType){
+	context.require = function (ids, callback, errHandler) {
+		if (ids instanceof arrType && callback instanceof funcType) {
 			//execute asynchronously
-			setTimeout(function(){
-				var reqId = Math.random();
-					m = [];
+			setTimeout(function () {
+				try {
+					var reqId = Math.random(),
+						m = [],
+						x,
+						y;
 
-				var x = 0,
-					y = ids.length;
-
-				try{
-					for(; x < y; x++){
+					for (x = 0, y = ids.length; x < y; x += 1) {
 						m[x] = process(ids[x], reqId);
 					}
-				}catch(err){
-					if(errHandler instanceof funcType){
+
+					callback.apply(context, m);
+				} catch (err) {
+					if (errHandler instanceof funcType) {
 						errHandler.call(context, err);
-					}else{
+					} else {
 						throw err;
 					}
 				}
-
-				callback.apply(context, m);
 			}, 0);
-		}else{
+		} else {
 			throw 'Invalid require call.';
 		}
 	};
