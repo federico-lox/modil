@@ -1,16 +1,5 @@
-*.class
-*.komodoproject
-*.merge-left*
-*.merge-right*
-*.mine
-*.prej
-*.pyc
-*.pyo
-*.working
+# Mac #
 .DS_Store
-.project
-.settings
-.svn
-_svn
-svn-commit*.tmp
-test.html
+
+# Sublime Text #
+*.sublime-*
