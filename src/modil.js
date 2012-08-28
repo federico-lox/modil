@@ -16,6 +16,16 @@
 (function (context) {
 	'use strict';
 
+	//if one of define or require already exists then throw an erro
+	//to avoid silly things such as overriding native CommonJS support
+	if (context.define) {
+		throw 'define is already defined in the global scope, cannot continue';
+	}
+
+	if (context.require) {
+		throw 'require is already defined in the global scope, cannot continue';
+	}
+
 	var modules = {},
 		definitions = {},
 		processing = {},
