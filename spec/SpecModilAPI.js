@@ -24,4 +24,4 @@ describe("API", function () {
 			expect(typeof require).toBe('function');
 		});
 	});
-})
+});
