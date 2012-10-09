@@ -17,11 +17,40 @@ describe("API", function () {
 		it("should support AMD", function () {
 			expect(define.amd).toBeDefined();
 		});
+
+		it('should be a function', function (){
+			expect(define.mock).toBeDefined();
+			expect(define.mock instanceof Function).toBe(true);
+		});
+
+		it('should return OptionalModule', function(){
+			var optionalModule = define.optional('module');
+			expect(optionalModule ).toBeTruthy();
+			expect(optionalModule.toString()).toEqual('module');
+		});
 	});
 
 	describe("require", function () {
 		it("should be a function", function () {
 			expect(typeof require).toBe('function');
+		});
+
+		it('should throw an exception', function(){
+			expect(function(){
+				require();
+			}).toThrow();
+
+			expect(function(){
+				require('iDontExist')
+			}).toThrow();
+
+			expect(function(){
+				require('iDontExist', 'iShouldBeFunction')
+			}).toThrow();
+
+			expect(function(){
+				require(['iDontExist'], 'iShouldBeFunction')
+			}).toThrow();
 		});
 	});
 });
