@@ -6,6 +6,7 @@
  *
  * @author Federico "Lox" Lucignano
  * <https://plus.google.com/117046182016070432246>
+ * @author Jakub Olek
  *
  * @see https://github.com/federico-lox/modil.js
  * @see http://requirejs.org/docs/api.html for example
@@ -37,8 +38,7 @@
 		yes = true,
 		nil = null,
 		define,
-		require,
-		mockify;
+		require;
 
 	/**
 	 * Processes a module definition for a require call
@@ -68,7 +68,7 @@
 			dependency;
 
 		if (module) {
-			return mock ? mockify(module, mock) : module;
+			return mock ? override(module, mock) : module;
 		}
 
 		if (!pid) {
@@ -112,7 +112,7 @@
 			delete processing[reqId];
 		}
 
-		return mock ? mockify(module, mock) : module;
+		return mock ? override(module, mock) : module;
 	}
 
 	/**
@@ -161,6 +161,12 @@
 		}
 	};
 
+	/**
+	 * Simple function to create mocks
+	 *
+	 * @param id {String} Name of a module to mock
+	 * @param definition {Object} definition of mock
+	 */
 	define.mock = function (id, definition){
 		define(id, nil, definition, yes);
 	};
@@ -224,6 +230,12 @@
 		}
 	};
 
+	/**
+	 * Class that stores optional module name
+	 *
+	 * @param id {String} Name of optional module
+	 * @constructor
+	 */
 	var OptionalModule = function(id){
 		this.id = id;
 	};
@@ -232,7 +244,13 @@
 		return this.id;
 	};
 
-	define.optional = require.optional = function(id){
+	/**
+	 * Function that 'marks' module as optonal
+	 *
+	 * @param id {String} Name of optional module
+	 * @return {OptionalModule} OptionalModule object
+	 */
+	require.optional = function(id){
 		return new OptionalModule(id);
 	};
 
@@ -241,12 +259,12 @@
 	 * @param mock Mock
 	 * @return Module
 	 */
-	mockify = function(module, mock){
+	function override(module, mock){
 		for (var p in mock) {
-			if (mock.hasOwnProperty(p)) module[p] = mock[p];
+			if (mock.hasOwnProperty(p) && module.hasOwnProperty(p)) module[p] = mock[p];
 		}
 		return module;
-	};
+	}
 
 	//expose needed functions to context
 	context.require = require;
