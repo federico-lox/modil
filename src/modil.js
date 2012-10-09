@@ -26,7 +26,8 @@
 		throw 'require is already defined in the global scope, cannot continue';
 	}
 
-	var modules = {},
+	var mocks = {},
+		modules = {},
 		definitions = {},
 		processing = {},
 		//help minification
@@ -35,7 +36,8 @@
 		strType = 'string',
 		yes = true,
 		nil = null,
-		def;
+		def,
+		mockify;
 
 	/**
 	 * Processes a module definition for a require call
@@ -52,6 +54,7 @@
 	 */
 	function process(id, reqId) {
 		var module = modules[id],
+			mock = mocks[id],
 			//manage the process chain per require
 			//call since it can be an async call
 			pid = processing[reqId],
@@ -62,7 +65,7 @@
 			p;
 
 		if (module) {
-			return module;
+			return mock ? mockify(module, mock) : module;
 		}
 
 		if (!pid) {
@@ -104,7 +107,7 @@
 			delete processing[reqId];
 		}
 
-		return module;
+		return mock ? mockify(module, mock) : module;
 	}
 
 	/**
@@ -139,14 +142,24 @@
 			throw "Module " + id + " is missing a definition.";
 		} else if (definition instanceof funcType) {
 			if (dependencies === nil || dependencies instanceof arrType) {
-				definitions[id] = {def: definition, dep: dependencies};
+				if (defMock) {
+					mocks[id] = definition();
+				} else {
+					definitions[id] = {def: definition, dep: dependencies};
+				}
+
 			} else {
 				throw 'Invalid dependencies for module ' + id;
 			}
 		} else {
-			modules[id] = definition;
+			(defMock ? mocks : modules)[id] = definition;
 		}
 	};
+
+	def.mock = function(id, definition){
+		def(id, nil, definition, yes);
+	};
+
 
 	/**
 	 * Declares support for the AMD spec
