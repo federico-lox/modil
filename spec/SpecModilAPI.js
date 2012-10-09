@@ -18,6 +18,16 @@ describe("API", function () {
 			expect(define.amd).toBeDefined();
 		});
 
+		it('should throw', function(){
+			expect(function(){
+				define('module');
+			}).toThrow();
+
+			expect(function(){
+				define('module', 'dependencies', function(){});
+			}).toThrow();
+		})
+
 		it('should be a function', function (){
 			expect(define.mock).toBeDefined();
 			expect(define.mock instanceof Function).toBe(true);
