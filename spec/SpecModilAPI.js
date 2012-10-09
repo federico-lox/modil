@@ -32,12 +32,6 @@ describe("API", function () {
 			expect(define.mock).toBeDefined();
 			expect(define.mock instanceof Function).toBe(true);
 		});
-
-		it('should return OptionalModule', function(){
-			var optionalModule = define.optional('module');
-			expect(optionalModule ).toBeTruthy();
-			expect(optionalModule.toString()).toEqual('module');
-		});
 	});
 
 	describe("require", function () {
@@ -63,4 +57,17 @@ describe("API", function () {
 			}).toThrow();
 		});
 	});
+
+	describe('require.optional', function(){
+		it('should be defined', function(){
+			expect(require.optional).toBeDefined();
+			expect(typeof require.optional).toEqual('function');
+		});
+
+		it('should return OptionalModule', function(){
+			var optionalModule = require.optional('module');
+			expect(optionalModule ).toBeTruthy();
+			expect(optionalModule.toString()).toEqual('module');
+		});
+	})
 });
