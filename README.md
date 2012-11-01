@@ -28,6 +28,7 @@ Here's a list of good reasons:
   use existing frameworks/libraries without the need to wrap them in a dummy module or waiting for those to support AMD)
   * possibility to mock (even partiallu) functionality of a module via define.mock
   * optional dependencies via require.optional
+  * circular dependencies detection, when detected an error will be thrown; circular dependencies usually make the code more fragile and are a pointer of a sub-optimal design
   * coming soon - support for the deferreds/promises API, another very interesting pattern that
   helps you make your code more elegant maintainable
 
