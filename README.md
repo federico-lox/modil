@@ -22,13 +22,14 @@ Here's a list of good reasons:
   you won't need to update your code when a module's file name changes, and makes the library a lot less complex (no eval
   mumbo-jumbo, no assumptions on how you package/load your modules), also module libraries (a script with more than one inter-dependent
   module) are a possibility with no need to go through a nodeJS packager
-* Useful additions: focusing on being a module system, modil.js introduces support for references to existing objects and values as define/require dependencies bridging
+* **Useful additions** to the AMD proposal:
+  * focusing on being a module system, modil.js introduces support for references to existing objects and values as define/require dependencies bridging
   the gap between AMD and non-AMD code without breaking the dependencies declaration/injection mechanism (this means you can
-  use existing frameworks/libraries without the need to wrap them in a dummy module or waiting for those to support AMD),
-  and it will soon support optional dependencies and the deferreds/promises API, another very interesting pattern that
+  use existing frameworks/libraries without the need to wrap them in a dummy module or waiting for those to support AMD)
+  * possibility to mock (even partiallu) functionality of a module via define.mock
+  * optional dependencies via require.optional
+  * coming soon - support for the deferreds/promises API, another very interesting pattern that
   helps you make your code more elegant maintainable
-* Possibility to mock functionality of a module via define.mock
-* Support for optional module via require.optional. This means that callback has to take into consideration that module might be undefined.
 
 Credits
 -------
