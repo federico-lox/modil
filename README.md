@@ -1,5 +1,5 @@
-modil.js
-=========
+Modil
+=====
 A no-frills, lightweight and fast AMD implementation for modular Javascript projects meant to run in a Web browser.
 
 Rationale
