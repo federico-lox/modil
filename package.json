@@ -1,0 +1,40 @@
+{
+	"name": "modil",
+	"version": "0.9.0",
+	"description": "A no-frills, lightweight and fast AMD implementation for modular JavaScript projects",
+	"keywords": [
+		"module",
+		"amd",
+		"require",
+		"define",
+		"dependency injection",
+		"async"
+	],
+	"author": {
+		"name": "Federico \"Lox\"Lucignano",
+		"email": "federico.lox@gmail.com",
+		"url": "http://plus.google.com/+FedericoLucignano/about"
+	},
+	"contributors": [
+		{
+			"name": "Jakub Olek"
+		}
+	],
+	"license": "MIT",
+	"homepage": "http://github.com/federico-lox/modil.git",
+	"repository" :
+	{
+		"type": "git",
+		"url": "http://github.com/federico-lox/modil.git"
+	}
+	"bugs": "http://github.com/federico-lox/modil/issues",
+	"files": [
+		"src/"
+	],
+	"devDependencies": {
+		"karma": "~0.10"
+	},
+	"scripts": {
+		"test": "./node_modules/.bin/karma start test/karma.config.js --single-run --browsers PhantomJS"
+	}
+}
