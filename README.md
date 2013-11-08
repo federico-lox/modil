@@ -1,4 +1,4 @@
-Modil
+Modil ![Travis CI build status](https://travis-ci.org/federico-lox/modil.png?branch=master)
 =====
 A no-frills, lightweight and fast AMD implementation for modular Javascript projects meant to run in a Web browser.
 

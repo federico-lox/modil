@@ -17,16 +17,6 @@
 (function (context) {
 	'use strict';
 
-	//if one of define or require already exists then throw an erro
-	//to avoid silly things such as overriding native CommonJS support
-	if (context.define) {
-		throw 'define is already defined in the global scope, cannot continue';
-	}
-
-	if (context.require) {
-		throw 'require is already defined in the global scope, cannot continue';
-	}
-
 	var mocks = {},
 		modules = {},
 		definitions = {},
@@ -133,7 +123,7 @@
 	 * @throws {Error} If id doesn't have a definition
 	 * @throws {Error} If dependenices is not undefined but not an array
 	 */
-	define = function (id, dependencies, definition, defMock) {
+	function define(id, dependencies, definition, defMock) {
 		if (typeof id !== strType) {
 			throw "Module id missing or not a string. " + (new Error().stack||'').replace(/\n/g, ' / ');
 		}
@@ -202,7 +192,7 @@
 	 *
 	 * @throws {Error} If ids is not an array and/or callback is not a function
 	 */
-	require = function (ids, callback, errHandler) {
+	function require(ids, callback, errHandler) {
 		if (ids instanceof arrType && callback instanceof funcType) {
 			//execute asynchronously
 			setTimeout(function () {
@@ -267,7 +257,18 @@
 		return module;
 	}
 
-	//expose needed functions to context
-	context.require = require;
-	context.define = define;
+	//expose as a "namespace"
+	context.Modil = {
+		define: define,
+		require: require
+	};
+
+	//expose as global functions if names not already assigned
+	if (!context.define) {
+		context.define = define;
+	}
+
+	if (!context.require) {
+		context.require = require;
+	}
 }(this));

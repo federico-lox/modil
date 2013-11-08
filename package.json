@@ -26,7 +26,7 @@
 	{
 		"type": "git",
 		"url": "http://github.com/federico-lox/modil.git"
-	}
+	},
 	"bugs": "http://github.com/federico-lox/modil/issues",
 	"files": [
 		"src/"
@@ -35,6 +35,6 @@
 		"karma": "~0.10"
 	},
 	"scripts": {
-		"test": "./node_modules/.bin/karma start test/karma.config.js --single-run --browsers PhantomJS"
+		"test": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers PhantomJS"
 	}
 }
