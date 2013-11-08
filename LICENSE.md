@@ -1,10 +1,10 @@
 The MIT License
 ===============
 
-Source code for modil.js is Copyright © 2012–2013
-[Federico "Lox" Lucignano](https://plus.google.com/117046182016070432246 "Google profile"),
+Source code for Modil is Copyright © 2012–2013
+[Federico "Lox" Lucignano](https://plus.google.com/+FedericoLucignano/about "Google profile"),
 and
-[contributors](http://github.com/federico-lox/modil.js/contributors "modil.js contributors at GitHub").
+[contributors](http://github.com/federico-lox/modil/contributors "Modil contributors at GitHub").
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the “Software”), to deal in
