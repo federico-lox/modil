@@ -39,7 +39,7 @@ JavaScript and why should you use it? Here's a list of good reasons:
     dummy module or waiting for those to start supporting _AMD_
   * Possibility to mock functionality (even partially) of a module via
     `define.mock`
-  * Pptional dependencies via `require.optional`
+  * Otional dependencies via `require.optional`
   * Circular dependencies detection, an error will be thrown; circular
     dependencies usually make the code more fragile and are a pointer of a
     sub-optimal design
@@ -67,7 +67,7 @@ Credits
 
 [amd]: https://github.com/amdjs/amdjs-api/wiki/AMD
 [travis status]: https://travis-ci.org/federico-lox/modil.png?branch=master
-[require.js]: http://requirejs.org
+[requirejs]: http://requirejs.org
 [karma]: http://karma-runner.github.io
 [jasmine]: http://pivotal.github.io/jasmine
 [federico-lox]: https://github.com/federico-lox "Federico Lucignano on Github"
