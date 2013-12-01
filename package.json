@@ -35,6 +35,7 @@
 		"karma": "~0.10"
 	},
 	"scripts": {
-		"test": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers PhantomJS"
+		"test": "karma start test/karma.conf.js --single-run",
+		"start": "karma start test/karma.conf.js"
 	}
 }
