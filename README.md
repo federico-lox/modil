@@ -1,4 +1,4 @@
-Modil ![Travis CI build status][travis status] [![Code Climate](https://codeclimate.com/github/federico-lox/modil.png)](codeclimate)
+Modil ![Travis CI build status][travis status] [![Code Climate](https://codeclimate.com/github/federico-lox/modil.png)][codeclimate]
 ==============================================
 A no-frills, lightweight and fast [AMD] implementation for modular JavaScript
 projects meant to run in a web browser.
