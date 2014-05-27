@@ -1,4 +1,4 @@
-Modil ![Travis CI build status][travis status]
+Modil ![Travis CI build status][travis status] [![Code Climate](https://codeclimate.com/github/federico-lox/modil.png)](codeclimate)
 ==============================================
 A no-frills, lightweight and fast [AMD] implementation for modular JavaScript
 projects meant to run in a web browser.
@@ -67,6 +67,7 @@ Credits
 
 [amd]: https://github.com/amdjs/amdjs-api/wiki/AMD
 [travis status]: https://travis-ci.org/federico-lox/modil.png?branch=master
+[codeclimate]: https://codeclimate.com/github/federico-lox/modil
 [requirejs]: http://requirejs.org
 [karma]: http://karma-runner.github.io
 [jasmine]: http://pivotal.github.io/jasmine
