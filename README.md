@@ -70,7 +70,7 @@ Credits
 [codeclimate]: https://codeclimate.com/github/federico-lox/modil
 [requirejs]: http://requirejs.org
 [karma]: http://karma-runner.github.io
-[jasmine]: http://pivotal.github.io/jasmine
+[jasmine]: https://jasmine.github.io/
 [federico-lox]: https://github.com/federico-lox "Federico Lucignano on Github"
 [jakub olek]: https://github.com/hakubo "Jakub Olek on Github"
 [james burke]: https://github.com/jrburke "James Burke on Github"
